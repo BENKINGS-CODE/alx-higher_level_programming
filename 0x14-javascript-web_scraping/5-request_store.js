@@ -2,17 +2,14 @@
 
 const request = require('request');
 const fs = require('fs');
-const url = process.argv[2];
-const file = process.argv[3];
 
-request(url, (error, response, body) => {
+request(process.argv[2], function (error, response, body) {
   if (error) {
-    console.log(error);
-  } else {
-    fs.writeFile(file, body, 'utf8', (error) => {
-      if (error) {
-        console.log(error);
-      }
-    });
+    console.error(error);
+  }
+  try {
+    fs.writeFile(process.argv[3], body, 'utf8', function (err, result) { if (err) console.log(err); });
+  } catch (err) {
+    console.log(err);
   }
 });
